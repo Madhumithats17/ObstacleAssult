@@ -24,21 +24,29 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-    void MovePlatform(float DeltaTime);
-    void RotatePlatform(float DeltaTime);
+	void MovePlatform(float DeltaTime);
+	void RotatePlatform(float DeltaTime);
 
 	bool ShouldPlatformReturn(const FVector& NewLocation) const;
-
+	float GetDistanceMoved() const;
 
 public:
-	UPROPERTY(EditAnywhere)
-    FVector MoveVelocity;
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	FVector MoveVelocity;
 
-	UPROPERTY(EditAnywhere)
-    float MaxMoveDistance { 0 };
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	float MaxMoveDistance { 0 };
 
-	UPROPERTY(EditAnywhere)
-    FRotator RotationVelocity;
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	FRotator RotationVelocity;
 
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	bool bPauseAtTurnaround { false };
+
+	UPROPERTY(EditAnywhere, Category = "Moving Platform", meta = (EditCondition = "bPauseAtTurnaround"))
+	float ReturnWaitTime { 1.0f };
+
+private:
 	FVector StartLocation;
+	float CurrentWaitTimer { 0.0f };
 };
