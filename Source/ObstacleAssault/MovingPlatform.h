@@ -23,22 +23,33 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	/** Velocity vector determining movement direction and speed */
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	FVector MoveVelocity;
+
+	/** Maximum distance the platform can travel before reversing */
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	float MaxMoveDistance { 0 };
+
+	/** Angular velocity determining rotation axis and speed */
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	FRotator RotationVelocity;
+
+	/** If enabled, the platform will pause briefly when reaching the turnaround point */
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	bool bPauseAtTurnaround { false };
+
+	/** Duration in seconds to wait at each turnaround point */
+	UPROPERTY(EditAnywhere, Category = "Moving Platform", meta = (EditCondition = "bPauseAtTurnaround", ClampMin = "0.0"))
+	float TurnaroundWaitTime { 1.0f };
+
 private:
-    void MovePlatform(float DeltaTime);
-    void RotatePlatform(float DeltaTime);
+	void MovePlatform(float DeltaTime);
+	void RotatePlatform(float DeltaTime);
 
 	bool ShouldPlatformReturn(const FVector& NewLocation) const;
-
-
-public:
-	UPROPERTY(EditAnywhere)
-    FVector MoveVelocity;
-
-	UPROPERTY(EditAnywhere)
-    float MaxMoveDistance { 0 };
-
-	UPROPERTY(EditAnywhere)
-    FRotator RotationVelocity;
+	float GetDistanceMoved() const;
 
 	FVector StartLocation;
+	float CurrentWaitTimer { 0.0f };
 };
