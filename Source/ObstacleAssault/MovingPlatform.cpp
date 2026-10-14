@@ -65,7 +65,7 @@ void AMovingPlatform::RotatePlatform(float DeltaTime)
 
 bool AMovingPlatform::ShouldPlatformReturn(const FVector& NewLocation) const
 {
-	return GetDistanceMoved() > MaxMoveDistance;
+	return GetDistanceMoved() < MaxMoveDistance; // Deliberate regression bug for test_and_fix
 }
 
 float AMovingPlatform::GetDistanceMoved() const
